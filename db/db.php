@@ -1,4 +1,5 @@
 <?php
+// Comment in db object for another branch
 class Database{
     private $host = "localhost";
     private $db_name = "housestuffdb";
