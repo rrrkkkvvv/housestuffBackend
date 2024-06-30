@@ -11,7 +11,6 @@ $method = $_SERVER["REQUEST_METHOD"];
 if ($method == "OPTIONS") {
     http_response_code(200);
     exit();
-    //comment
 }
 
 
@@ -21,12 +20,7 @@ $db = $database->getConnection();
 $category = new Category($db);
 
 
-// session_start();
-
-// if(!isset($_SESSION["admin"]) && $method !== "GET"){
-//     echo json_encode(["message"=>"Unauthorized"]);
-//     exit();
-// }
+ 
 
 switch($method){
     case "GET":

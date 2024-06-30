@@ -20,12 +20,7 @@ $db = $database->getConnection();
 
 $product = new Product($db);
 
-// session_start();
-
-// if (!isset($_SESSION['admin']) && $method !== "GET") {
-//     echo json_encode(["message" => "Unauthorized"]);
-//     exit();
-// }
+ 
 
 switch ($method) {
     case "GET":
