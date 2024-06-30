@@ -1,5 +1,5 @@
 <?php
-
+// Product object commennt
 class Product{
     private $conn;
     private $table_name = "products";
