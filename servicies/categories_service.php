@@ -11,6 +11,7 @@ $method = $_SERVER["REQUEST_METHOD"];
 if ($method == "OPTIONS") {
     http_response_code(200);
     exit();
+    //comment
 }
 
 
