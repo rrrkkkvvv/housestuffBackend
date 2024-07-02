@@ -64,6 +64,46 @@ switch($method){
             echo json_encode(array("message"=>"Cannot create a category, there is not enough data"));
         }
         break;
+    case "PUT":
+        $data  = json_decode(file_get_contents("php://input"));
+        if(!empty($data->title) && !empty($data->visible_title)){
+            $category->title = $data->title;
+            $category->visible_title = $data->visible_title;
+            $category->id = $data->id;
+    
+            if($category->update()){
+                http_response_code(201);
+                echo json_encode(array("message"=>"Category was updated"));
+            }else{
+                http_response_code(503);
+                echo json_encode(array("message"=>"Category updating error"));
+            }
+        }else{
+            http_response_code(503);
+            echo json_encode(array("message"=>"Cannot update a category, there is not enough data"));
+        }
+        break;
+    case "DELETE":
+        $data = json_decode(file_get_contents("php://input"));
+        
+        if (!empty($data->id)) {
+            $category->id = $data->id;
+     
+        
+            if ($category->delete()) {
+                http_response_code(201);
+                echo json_encode(array("message" => "Product was deleted"));
+            } else {
+                http_response_code(503);
+                echo json_encode(array("message" => "Product deleting error"));
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(array("message" => "Cannot delete a product, there is not enough data."));
+        }
+            
+        break;       
+
     default:
         http_response_code(405);
         echo json_encode(array("message"=>"Method is not allowed"));

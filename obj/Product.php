@@ -71,18 +71,18 @@ class Product{
 
         return false;   
     }
-    function delete(){
-        $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
+        function delete(){
+            $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
+            $stmt = $this->conn->prepare($query);
 
-        $this->id = htmlspecialchars(strip_tags($this->id));
+            $this->id = htmlspecialchars(strip_tags($this->id));
 
-        $stmt->bindParam(':id', $this->id);
+            $stmt->bindParam(':id', $this->id);
 
-        if ($stmt->execute()) {
-            return true;
+            if ($stmt->execute()) {
+                return true;
+            }
+
+            return false;   
         }
-
-        return false;   
-    }
 }
