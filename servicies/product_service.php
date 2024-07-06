@@ -24,12 +24,22 @@ $product = new Product($db);
 
 switch ($method) {
     case "GET":
-        $stmt = $product->get();
+
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $limit = isset($_GET['limit']) ? $_GET['limit'] : 6;
+
+
+        $stmt = $product->get($page, $limit);
+
         $num = $stmt->rowCount();
         if ($num > 0) {
             $products_arr = array();
             $products_arr["records"] = array();
-
+            $products_arr["pagination"] = array(
+                "page"=> $page,
+                "limit"=>$limit,
+                "total"=>$product->count()
+            );  
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 extract($row);
 

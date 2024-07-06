@@ -14,14 +14,30 @@ class Product{
     public function __construct($db) {
         $this->conn = $db;
     }
-    function get(){
-        $query = "SELECT * FROM " . $this->table_name;
+    public function get($page, $limit) {
+        $offset = ($page - 1) * $limit;
+        $query = "SELECT * FROM " . $this->table_name . " LIMIT :limit OFFSET :offset";
+
         $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
         $stmt->execute();
+
         return $stmt;
     }
 
+     public function count() {
+        $query = "SELECT COUNT(*) as total FROM " . $this->table_name;
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
+    }
+
     function create(){
+  
+
         $query = "INSERT INTO " . $this->table_name . " SET title = :title, description = :description, fullDesc = :fullDesc, price = :price, category = :category, img = :img";
         $stmt = $this->conn->prepare($query);
 
