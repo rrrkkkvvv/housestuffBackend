@@ -27,9 +27,10 @@ switch ($method) {
 
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $limit = isset($_GET['limit']) ? $_GET['limit'] : 6;
+        $category = isset($_GET['category']) ? $_GET['category'] : "all";
 
 
-        $stmt = $product->get($page, $limit);
+        $stmt = $product->get($page, $limit, $category);
 
         $num = $stmt->rowCount();
         if ($num > 0) {
@@ -38,7 +39,7 @@ switch ($method) {
             $products_arr["pagination"] = array(
                 "page"=> $page,
                 "limit"=>$limit,
-                "total"=>$product->count()
+                "total"=>$product->count($category)
             );  
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 extract($row);
@@ -98,6 +99,7 @@ switch ($method) {
             $product->price = $data->price;
             $product->category = $data->category;
             $product->img = $data->img;
+            $product->id = $data->id;
 
             if ($product->update()) {
                 http_response_code(201);

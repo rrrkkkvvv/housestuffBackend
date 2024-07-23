@@ -14,21 +14,37 @@ class Product{
     public function __construct($db) {
         $this->conn = $db;
     }
-    public function get($page, $limit) {
+    public function get($page, $limit, $category) {
         $offset = ($page - 1) * $limit;
-        $query = "SELECT * FROM " . $this->table_name . " LIMIT :limit OFFSET :offset";
-
+        if($category == "all"){
+            $query = "SELECT * FROM " . $this->table_name . " LIMIT :limit OFFSET :offset";
+        }else{
+            $query = "SELECT * FROM " . $this->table_name . " WHERE category = :category LIMIT :limit OFFSET :offset";
+        }
+        
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
         $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        if($category != "all"){
+            $stmt->bindParam(':category', $category, PDO::PARAM_STR);
+        }
+
         $stmt->execute();
 
         return $stmt;
     }
 
-     public function count() {
-        $query = "SELECT COUNT(*) as total FROM " . $this->table_name;
+    public function count($category) {
+        if($category == "all"){
+            $query = "SELECT COUNT(*) as total FROM " . $this->table_name;
+        }else{
+            $query = "SELECT COUNT(*) as total FROM " . $this->table_name." WHERE category = :category";
+        }
         $stmt = $this->conn->prepare($query);
+        if($category != "all"){
+            $stmt->bindParam(':category', $category, PDO::PARAM_STR);
+        }
+
         $stmt->execute();
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);

@@ -92,14 +92,14 @@ switch($method){
         
             if ($category->delete()) {
                 http_response_code(201);
-                echo json_encode(array("message" => "Product was deleted"));
+                echo json_encode(array("message" => "Category was deleted"));
             } else {
                 http_response_code(503);
-                echo json_encode(array("message" => "Product deleting error"));
+                echo json_encode(array("message" => "Category deleting error"));
             }
         } else {
             http_response_code(400);
-            echo json_encode(array("message" => "Cannot delete a product, there is not enough data."));
+            echo json_encode(array("message" => "Cannot delete a category, there is not enough data."));
         }
             
         break;       
