@@ -33,6 +33,16 @@ class Product{
 
         return $stmt;
     }
+    public function getById($id){
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt;
+    }
 
     public function count($category) {
         if($category == "all"){

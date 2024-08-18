@@ -24,6 +24,31 @@ $category = new Category($db);
 
 switch($method){
     case "GET":
+        if(isset($_GET['id'])){
+
+
+            $stmt = $category->getById( $_GET['id']);
+
+            $categories_arr = array();
+            $categories_arr["records"] = array();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            extract($row);
+
+            $category_item = array(
+                "id"=>$id,
+                "title"=>$title,
+                "visible_title"=>$visible_title
+            );
+
+            array_push($categories_arr["records"], $category_item);
+        
+            
+
+            http_response_code(200);
+            echo json_encode($categories_arr);
+            break;
+
+        }else{
         $stmt = $category->get();
         $num = $stmt->rowCount();
         if($num>0){
@@ -46,6 +71,7 @@ switch($method){
             echo json_encode(array("message"=>"Categories arent found"));
         }
         break;
+    }
     case "POST":
         $data  = json_decode(file_get_contents("php://input"));
         if(!empty($data->title) && !empty($data->visible_title)){

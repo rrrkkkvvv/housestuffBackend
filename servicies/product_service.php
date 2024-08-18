@@ -24,7 +24,37 @@ $product = new Product($db);
 
 switch ($method) {
     case "GET":
+        if(isset($_GET['id'])){
 
+
+            $stmt = $product->getById( $_GET['id']);
+
+            $products_arr = array();
+            $products_arr["records"] = array();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            extract($row);
+
+            $product_item = array(
+                "id" => $id,
+                "title" => $title,
+                "img" => $img,
+                "description" => html_entity_decode($description),
+                "fullDesc" => html_entity_decode($fullDesc),
+                "price" => $price,
+                "category" => $category
+            );
+
+            array_push($products_arr["records"], $product_item);
+        
+            
+
+            http_response_code(200);
+            echo json_encode($products_arr);
+            break;
+
+        }else{
+
+        
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $limit = isset($_GET['limit']) ? $_GET['limit'] : 6;
         $category = isset($_GET['category']) ? $_GET['category'] : "all";
@@ -64,7 +94,7 @@ switch ($method) {
             echo json_encode(array("message" => "Products aren't found."));
         }
         break;
-
+    }
     case "POST":
         $data = json_decode(file_get_contents("php://input"));
 
