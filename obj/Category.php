@@ -1,4 +1,5 @@
 <?php
+include_once("../db/db.php");
 
 class Category{
     private $conn;
@@ -78,3 +79,4 @@ class Category{
         return false;   
     }
 }
+$category = new Category($db);

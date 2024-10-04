@@ -7,7 +7,6 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-include_once("../db/db.php");
 include_once("../obj/Product.php");
 
 if ($method == "OPTIONS") {
@@ -15,10 +14,7 @@ if ($method == "OPTIONS") {
     exit();
 }
 
-$database = new Database();
-$db = $database->getConnection();
 
-$product = new Product($db);
 
  
 

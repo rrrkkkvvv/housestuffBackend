@@ -1,4 +1,8 @@
 <?php
+
+include_once("../db/db.php");
+
+
 class Product{
     private $conn;
     private $table_name = "products";
@@ -128,3 +132,4 @@ class Product{
             return false;   
         }
 }
+$product = new Product($db);
